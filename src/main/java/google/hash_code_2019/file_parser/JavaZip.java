@@ -1,4 +1,4 @@
-package fun.google.hash_code_2018.file_parser;
+package main.java.fun.google.hash_code_2019.file_parser;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -13,9 +13,9 @@ import java.util.zip.ZipOutputStream;
 public class JavaZip {
 
     private List <String> fileList;
-    private static final String OUTPUT_ZIP_FILE = "target\\output\\hash_code_2018.zip";
-    private static final String SOURCE_FOLDER = "..\\hash_code_2018"; // SourceFolder path
-    private List<String> IGNORE = Arrays.asList(".gitignore", ".idea", "hash_code_2018.iml", "target", "all_inputs");
+    private static final String OUTPUT_ZIP_FILE = "target\\output\\hash_code_2019.zip";
+    private static final String SOURCE_FOLDER = "..\\hash_code_2019"; // SourceFolder path
+    private List<String> IGNORE = Arrays.asList(".gitignore", ".idea", "hash_code_2019.iml", "target", "all_inputs");
 
     public JavaZip() {
         fileList = new ArrayList <> ();

@@ -1,9 +1,8 @@
-package fun.google.hash_code_2018;
+package main.java.fun.google.hash_code_2019;
 
 
 import fun.google.hash_code_2018.file_parser.ReadFile;
 import fun.google.hash_code_2018.file_parser.WriteFile;
-import fun.google.hash_code_2018.model.Maps;
 
 import java.util.Map;
 

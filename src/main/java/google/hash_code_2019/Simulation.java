@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 
 public class Simulation {
 
-    public Maps maps = null;
+
 
     public int simulate() {
         /*List<VehicleRides> rides = maps.getRides().parallelStream()

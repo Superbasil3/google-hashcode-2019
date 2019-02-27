@@ -1,4 +1,4 @@
-package fun.google.hash_code_2018.file_parser;
+package main.java.fun.google.hash_code_2019.file_parser;
 
 import fun.google.hash_code_2018.model.Maps;
 import fun.google.hash_code_2018.model.VehicleRides;
@@ -13,7 +13,7 @@ import java.util.Map;
 
 public class WriteFile {
 
-    public static void writeFileToPath(Map<String, Maps> resultObject) throws IOException {
+    public static void writeFileToPath(Map<String, Object> resultObject) throws IOException {
         try {
             for (Map.Entry entry : resultObject.entrySet()) {
                 Path outputFolder = Paths.get("target\\output");
@@ -22,7 +22,7 @@ public class WriteFile {
                 String outputFileName = outputFolder.resolve(entry.getKey().toString().replace("in", "out")).toString();
                 PrintWriter fileResult = new PrintWriter(new FileWriter(outputFileName));
 
-                writeAnswerToFile(fileResult, (Maps) entry.getValue());
+                writeAnswerToFile(fileResult,entry.getValue());
                 fileResult.close();
             }
         } catch (Exception e) {
@@ -30,9 +30,9 @@ public class WriteFile {
         }
     }
 
-    private static void writeAnswerToFile(PrintWriter fileResult, Maps value) {
-        for(VehicleRides vehicleRides : value.getVehicleRides()){
-            fileResult.println(vehicleRides.getStringToFile());
-        }
+    private static void writeAnswerToFile(PrintWriter fileResult, Object value) {
+        //for(VehicleRides vehicleRides : value.getVehicleRides()){
+            fileResult.println("");
+        //}
     }
 }
