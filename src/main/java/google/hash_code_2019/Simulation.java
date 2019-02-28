@@ -1,6 +1,7 @@
 package google.hash_code_2019;
 
 
+import com.google.common.collect.Sets;
 import google.hash_code_2019.model.Photo;
 import google.hash_code_2019.model.Slide;
 import google.hash_code_2019.model.Tags;
@@ -34,7 +35,7 @@ public class Simulation {
 
     for (int i = 0; i < verticalPhotos.size(); i++) {
       for (int j = i + 1; j < verticalPhotos.size(); j++) {
-        allPossibleSlides.add(new Slide(verticalPhotos.get(i), verticalPhotos.get(j)));
+        //allPossibleSlides.add(new Slide(verticalPhotos.get(i), verticalPhotos.get(j)));
       }
     }
 
@@ -129,18 +130,12 @@ public class Simulation {
     int common_tags = 0;
     int tags_in_s1_but_not_in_s2 = 0;
     int tags_in_s2_but_not_in_s2 = 0;
-    for (String t : s1.getTags()) {
-      if (s2.getTags().contains(t)) {
-        common_tags++;
-      } else {
-        tags_in_s1_but_not_in_s2++;
-      }
+    common_tags = Sets.intersection(s1.getTags(), s2.getTags()).size();
+    if (common_tags == 0) {
+      return 0;
     }
-    for (String t : s2.getTags()) {
-      if (!s1.getTags().contains(t)) {
-        tags_in_s2_but_not_in_s2++;
-      }
-    }
+    tags_in_s1_but_not_in_s2 = Sets.difference(s1.getTags(), s2.getTags()).size();
+    tags_in_s2_but_not_in_s2 = Sets.difference(s2.getTags(), s1.getTags()).size();
     return Math.min(Math.min(common_tags, tags_in_s1_but_not_in_s2), tags_in_s2_but_not_in_s2);
   }
 
