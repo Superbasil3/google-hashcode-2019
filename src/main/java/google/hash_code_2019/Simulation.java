@@ -2,15 +2,9 @@ package google.hash_code_2019;
 
 
 import com.google.common.collect.Sets;
-import google.hash_code_2019.model.Photo;
-import google.hash_code_2019.model.Slide;
-import google.hash_code_2019.model.Tags;
-import google.hash_code_2019.model.Transitions;
+import google.hash_code_2019.model.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class Simulation {
@@ -31,13 +25,14 @@ public class Simulation {
 
     horizontalPhotos.addAll(mapPhoto.values().stream().filter(p -> p.horizontal).collect(Collectors.toList()));
     verticalPhotos.addAll(mapPhoto.values().stream().filter(p -> !p.horizontal).collect(Collectors.toList()));
-    allPossibleSlides.addAll(horizontalPhotos.stream().map(Slide::new).collect(Collectors.toList()));
 
+    allPossibleSlides.addAll(horizontalPhotos.stream().map(Slide::new).collect(Collectors.toList()));
     for (int i = 0; i < verticalPhotos.size(); i++) {
       for (int j = i + 1; j < verticalPhotos.size(); j++) {
         //allPossibleSlides.add(new Slide(verticalPhotos.get(i), verticalPhotos.get(j)));
       }
     }
+    System.out.println("All possible slides " + allPossibleSlides.size());
 
         score = findFirstransition(transitions);
         while (!allPossibleSlides.isEmpty()) {
@@ -51,8 +46,15 @@ public class Simulation {
     int maxinterestFactor = 0;
     Slide bestS2 = null;
 
-    Slide s1 = transitions.transitions.getFirst();
-    for (int j = 0; j < allPossibleSlides.size(); j++) {
+    final Slide s1 = transitions.transitions.getFirst();
+
+    Calcul calcul = allPossibleSlides.parallelStream().map(s2 -> {
+      int interest_factor = interest_factor(s1, s2);
+      return new Calcul(s1, s2, interest_factor);
+    }).max((c1, c2) -> Integer.max(c1.factor, c2.factor)).get();
+    bestS2 = calcul.s2;
+
+    /*for (int j = 0; j < allPossibleSlides.size() - 1; j++) {
       Slide s2 = allPossibleSlides.get(j);
       int interest_factor = interest_factor(s1, s2);
       if (maxinterestFactor < interest_factor) {
@@ -61,15 +63,18 @@ public class Simulation {
       }
     }
     s1 = transitions.transitions.getLast();
-    for (int j = 0; j < allPossibleSlides.size(); j++) {
+    for (int j = 0; j < allPossibleSlides.size() - 1; j++) {
       Slide s2 = allPossibleSlides.get(j);
       int interest_factor = interest_factor(s1, s2);
       if (maxinterestFactor < interest_factor) {
         maxinterestFactor = interest_factor;
         bestS2 = s2;
       }
-    }
+    }*/
 
+    if (bestS2 == null) {
+      System.out.println("NULL");
+    }
     transitions.addLast(bestS2);
     // Remove not possible slides
     allPossibleSlides.remove(bestS2);
@@ -103,7 +108,25 @@ public class Simulation {
     Slide bestS1 = null;
     Slide bestS2 = null;
 
-        for (int i = 0; i < allPossibleSlides.size(); i++) {
+
+    Slide s1 = allPossibleSlides.get(new Random().nextInt(allPossibleSlides.size()));
+    System.out.println(s1);
+
+    for (int j = 0; j < allPossibleSlides.size() - 1; j++) {
+      Slide s2 = allPossibleSlides.get(j);
+      if (s1 == s2) {
+        continue;
+      }
+
+      int interest_factor = interest_factor(s1, s2);
+      if (maxinterestFactor < interest_factor) {
+        maxinterestFactor = interest_factor;
+        bestS1 = s1;
+        bestS2 = s2;
+      }
+    }
+
+        /*for (int i = 0; i < allPossibleSlides.size(); i++) {
             for (int j = i + 1; j < allPossibleSlides.size(); j++) {
                 Slide s1 = allPossibleSlides.get(i);
                 Slide s2 = allPossibleSlides.get(j);
@@ -116,7 +139,15 @@ public class Simulation {
             }
 
             System.out.println("First iteration " + i);
-        }
+        }*/
+
+    if (bestS1 == null) {
+      System.out.println("NULL");
+    }
+
+    if (bestS2 == null) {
+      System.out.println("NULL");
+    }
 
     transitions.addFirst(bestS1);
     transitions.addLast(bestS2);
@@ -130,7 +161,10 @@ public class Simulation {
     int common_tags = 0;
     int tags_in_s1_but_not_in_s2 = 0;
     int tags_in_s2_but_not_in_s2 = 0;
-    common_tags = Sets.intersection(s1.getTags(), s2.getTags()).size();
+    if (s1 == null || s2 == null) {
+      System.out.println("null");
+    }
+     common_tags = Sets.intersection(s1.getTags(), s2.getTags()).size();
     if (common_tags == 0) {
       return 0;
     }
