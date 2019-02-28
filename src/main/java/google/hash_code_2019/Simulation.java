@@ -3,6 +3,7 @@ package google.hash_code_2019;
 
 import google.hash_code_2019.model.Photo;
 import google.hash_code_2019.model.Slide;
+import google.hash_code_2019.model.Tags;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -11,22 +12,26 @@ public class Simulation {
 
 
   Map<Integer, Photo> mapPhoto = new HashMap<>();
-  Map<String, Integer> repartitionTags = new HashMap<>();
+  Map<String, Tags> repartitionTags = new HashMap<>();
 
-    public int simulate() {
-        int score = 0;
+  public int simulate() {
+      int score = 0;
 
-    int maxinterestFactor = 0;
-    for (Photo p1 : mapPhoto.values()) {
-      Slide s1 = new Slide(p1);
-      for (Photo p2 : mapPhoto.values()) {
-        Slide s2 = new Slide(p2);
-        int interest_factor = interest_factor(s1, s2);
-        maxinterestFactor = Math.max(maxinterestFactor, interest_factor);
+      int maxinterestFactor = 0;
+
+
+      repartitionTags.values().stream().sorted().forEach(tag->System.out.println("Tag : " + tag.name + ", iteration " + tag.iteration));
+
+      for (Photo p1 : mapPhoto.values()) {
+        Slide s1 = new Slide(p1);
+        for (Photo p2 : mapPhoto.values()) {
+          Slide s2 = new Slide(p2);
+          int interest_factor = interest_factor(s1, s2);
+          maxinterestFactor = Math.max(maxinterestFactor, interest_factor);
+        }
       }
-    }
 
-    return score;
+      return score;
   }
 
   public static int interest_factor(Slide s1, Slide s2) {
@@ -50,15 +55,15 @@ public class Simulation {
 
   public void addPhoto(Photo photo) {
     mapPhoto.put(photo.idPhoto, photo);
+    addTagRepartition(photo);
   }
 
   public void addTagRepartition(Photo photo) {
     photo.tags.stream().forEach(tag -> {
           if (repartitionTags.containsKey(tag)) {
-            repartitionTags.put(tag, repartitionTags.get(tag) + 1);
-
+            repartitionTags.get(tag).addPhoto(photo.idPhoto);
           } else {
-            repartitionTags.put(tag, 0);
+            repartitionTags.put(tag, new Tags(tag,photo.idPhoto));
           }
         }
     );
