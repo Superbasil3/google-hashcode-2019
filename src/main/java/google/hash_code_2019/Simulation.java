@@ -2,7 +2,7 @@ package google.hash_code_2019;
 
 
 import google.hash_code_2019.model.Photo;
-import google.hash_code_2019.model.Slide;
+import google.hash_code_2019.model.Transitions;
 import google.hash_code_2019.model.Tags;
 
 import java.util.HashMap;
@@ -19,13 +19,16 @@ public class Simulation {
 
       int maxinterestFactor = 0;
 
-
+    System.out.println("Number of tags :" + repartitionTags.size());
       repartitionTags.values().stream().sorted().forEach(tag->System.out.println("Tag : " + tag.name + ", iteration " + tag.iteration));
 
       for (Photo p1 : mapPhoto.values()) {
-        Slide s1 = new Slide(p1);
+        Transitions s1 = new Transitions(p1);
         for (Photo p2 : mapPhoto.values()) {
-          Slide s2 = new Slide(p2);
+          if(p1 == p2){
+            continue;
+          }
+          Transitions s2 = new Transitions(p2);
           int interest_factor = interest_factor(s1, s2);
           maxinterestFactor = Math.max(maxinterestFactor, interest_factor);
         }
@@ -34,7 +37,7 @@ public class Simulation {
       return score;
   }
 
-  public static int interest_factor(Slide s1, Slide s2) {
+  public static int interest_factor(Transitions s1, Transitions s2) {
     int common_tags = 0;
     int tags_in_s1_but_not_in_s2 = 0;
     int tags_in_s2_but_not_in_s2 = 0;
