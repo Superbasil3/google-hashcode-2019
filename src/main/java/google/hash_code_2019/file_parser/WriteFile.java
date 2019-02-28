@@ -1,5 +1,7 @@
 package google.hash_code_2019.file_parser;
 
+import google.hash_code_2019.model.Transitions;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -27,9 +29,10 @@ public class WriteFile {
     }
   }
 
-  private static void writeAnswerToFile(PrintWriter fileResult, Object value) {
-    //for(VehicleRides vehicleRides : value.getVehicleRides()){
+  private static void writeAnswerToFile(PrintWriter fileResult, Transitions transition) {
     fileResult.println("");
-    //}
+    for (Transitions slide : transition.getSlide()) {
+      fileResult.println("");
+    }
   }
 }
