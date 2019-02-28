@@ -45,7 +45,6 @@ public class ReadFile {
       } catch (IOException e) {
         e.printStackTrace();
       }
-      simulation.simulate();
       holder.put(filename,simulation.transitions);
     }
     System.out.println("Total = " + NumberFormat.getInstance().format(total));
