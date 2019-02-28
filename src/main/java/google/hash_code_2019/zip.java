@@ -1,9 +1,9 @@
-package fun.google.hash_code_2018;
+package google.hash_code_2019;
 
-import fun.google.hash_code_2018.file_parser.JavaZip;
+import google.hash_code_2019.file_parser.JavaZip;
 
 public class zip {
-    public static void main(String[] args) {
-        JavaZip.zipFile();
-    }
+  public static void main(String[] args) {
+    JavaZip.zipFile();
+  }
 }

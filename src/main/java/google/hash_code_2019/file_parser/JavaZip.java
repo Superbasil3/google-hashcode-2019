@@ -1,4 +1,4 @@
-package main.java.fun.google.hash_code_2019.file_parser;
+package google.hash_code_2019.file_parser;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -37,20 +37,16 @@ public class JavaZip {
             zos = new ZipOutputStream(fos);
 
             System.out.println("Output to Zip : " + zipFile);
-            FileInputStream in = null;
 
             for (String file: this.fileList) {
                 System.out.println("File Added : " + file);
                 ZipEntry ze = new ZipEntry(source + File.separator + file);
                 zos.putNextEntry(ze);
-                try {
-                    in = new FileInputStream(SOURCE_FOLDER + File.separator + file);
+                try (FileInputStream in = new FileInputStream(SOURCE_FOLDER + File.separator + file)) {
                     int len;
-                    while ((len = in .read(buffer)) > 0) {
+                    while ((len = in.read(buffer)) > 0) {
                         zos.write(buffer, 0, len);
                     }
-                } finally {
-                    in.close();
                 }
             }
 
