@@ -48,7 +48,6 @@ public class Simulation {
 
     private int findBestSecondTransition(Transitions transitions) {
         int maxinterestFactor = 0;
-        Slide bestS1 = null;
         Slide bestS2 = null;
 
         Slide s1 = transitions.transitions.getFirst();
@@ -57,7 +56,6 @@ public class Simulation {
             int interest_factor = interest_factor(s1, s2);
             if (maxinterestFactor < interest_factor) {
                 maxinterestFactor = interest_factor;
-                bestS1 = s1;
                 bestS2 = s2;
             }
         }
@@ -67,14 +65,20 @@ public class Simulation {
             int interest_factor = interest_factor(s1, s2);
             if (maxinterestFactor < interest_factor) {
                 maxinterestFactor = interest_factor;
-                bestS1 = s1;
                 bestS2 = s2;
             }
         }
 
-        transitions.addFirst(bestS1);
         transitions.addLast(bestS2);
-        removeAlreadyTakenSlides(bestS1, bestS2);
+        // Remove not possible slides
+        allPossibleSlides.remove(bestS2);
+        List<Slide> toRemove = new ArrayList<>();
+        for (Slide s : allPossibleSlides) {
+            if (s.photo2 != null && (s.photo2 == bestS2.photo2)) {
+                toRemove.add(s);
+            }
+        }
+        allPossibleSlides.removeAll(toRemove);
 
         return maxinterestFactor;
 
