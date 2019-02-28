@@ -14,7 +14,7 @@ public class Photo {
     horizontal = "H".equals(lineParsed[0]);
     id = Long.parseLong(lineParsed[1]);
     tags = new HashSet<>();
-    for(int i = 2;i > lineParsed.length;i++){
+    for(int i = 2;i < lineParsed.length;i++){
         tags.add(lineParsed[i]);
     }
   }
