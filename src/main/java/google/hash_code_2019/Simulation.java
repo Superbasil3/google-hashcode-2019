@@ -38,13 +38,13 @@ public class Simulation {
       }
     }
 
-    Transitions transitions = new Transitions();
-    score = findFirstransition(transitions);
-    while (!allPossibleSlides.isEmpty()) {
-      score += findBestSecondTransition(transitions);
+        score = findFirstransition(transitions);
+        while (!allPossibleSlides.isEmpty()) {
+            System.out.println("Remaining " + allPossibleSlides.size());
+            score += findBestSecondTransition(transitions);
+        }
+        return score;
     }
-    return score;
-  }
 
   private int findBestSecondTransition(Transitions transitions) {
     int maxinterestFactor = 0;
@@ -102,18 +102,20 @@ public class Simulation {
     Slide bestS1 = null;
     Slide bestS2 = null;
 
-    for (int i = 0; i < allPossibleSlides.size(); i++) {
-      for (int j = i + 1; j < allPossibleSlides.size(); j++) {
-        Slide s1 = allPossibleSlides.get(i);
-        Slide s2 = allPossibleSlides.get(j);
-        int interest_factor = interest_factor(s1, s2);
-        if (maxinterestFactor < interest_factor) {
-          maxinterestFactor = interest_factor;
-          bestS1 = s1;
-          bestS2 = s2;
+        for (int i = 0; i < allPossibleSlides.size(); i++) {
+            for (int j = i + 1; j < allPossibleSlides.size(); j++) {
+                Slide s1 = allPossibleSlides.get(i);
+                Slide s2 = allPossibleSlides.get(j);
+                int interest_factor = interest_factor(s1, s2);
+                if (maxinterestFactor < interest_factor) {
+                    maxinterestFactor = interest_factor;
+                    bestS1 = s1;
+                    bestS2 = s2;
+                }
+            }
+
+            System.out.println("First iteration " + i);
         }
-      }
-    }
 
     transitions.addFirst(bestS1);
     transitions.addLast(bestS2);

@@ -16,7 +16,7 @@ public class WriteFile {
   public static void writeFileToPath(Map<String, Object> resultObject) throws IOException {
     try {
       for (Map.Entry entry : resultObject.entrySet()) {
-        Path outputFolder = Paths.get("target\\output");
+        Path outputFolder = Paths.get("target/output");
         Files.createDirectories(outputFolder);
 
         String outputFileName = outputFolder.resolve(entry.getKey().toString().replace("txt", "out")).toString();
@@ -26,7 +26,7 @@ public class WriteFile {
         fileResult.close();
       }
     } catch (Exception e) {
-
+      e.printStackTrace();
     }
   }
 
