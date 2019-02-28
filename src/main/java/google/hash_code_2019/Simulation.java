@@ -3,13 +3,13 @@ package google.hash_code_2019;
 
 import google.hash_code_2019.model.Photo;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Simulation {
 
 
-  Map<Long,Photo> mapPhoto;
+  Set<Photo> mapPhoto;
 
   public int simulate() {
     int score = 0;
@@ -20,9 +20,9 @@ public class Simulation {
 
   public void addPhoto(Photo photo ){
       if(mapPhoto == null){
-        mapPhoto = new HashMap<>();
+        mapPhoto = new HashSet<>();
       }
-      mapPhoto.put(photo.id,photo);
+      mapPhoto.add(photo);
 
   }
 

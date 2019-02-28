@@ -39,6 +39,7 @@ public class ReadFile {
             simulation.addPhoto(new Photo(lineParsed));
           }
         });
+        System.out.println(simulation);
       } catch (IOException e) {
         e.printStackTrace();
       }
