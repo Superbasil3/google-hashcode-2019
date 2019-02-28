@@ -29,7 +29,7 @@ public class Simulation {
     allPossibleSlides.addAll(horizontalPhotos.stream().map(Slide::new).collect(Collectors.toList()));
     for (int i = 0; i < verticalPhotos.size(); i++) {
       for (int j = i + 1; j < verticalPhotos.size(); j++) {
-        //allPossibleSlides.add(new Slide(verticalPhotos.get(i), verticalPhotos.get(j)));
+        allPossibleSlides.add(new Slide(verticalPhotos.get(i), verticalPhotos.get(j)));
       }
     }
     System.out.println("All possible slides " + allPossibleSlides.size());
@@ -85,7 +85,16 @@ public class Simulation {
     allPossibleSlides.remove(bestS2);
     List<Slide> toRemove = new ArrayList<>();
     for (Slide s : allPossibleSlides) {
+      if (s.photo1 == bestS2.photo2) {
+        toRemove.add(s);
+      }
+      if (s.photo1 == bestS2.photo1) {
+        toRemove.add(s);
+      }
       if (s.photo2 != null && (s.photo2 == bestS2.photo2)) {
+        toRemove.add(s);
+      }
+      if (s.photo2 != null && (s.photo2 == bestS2.photo1)) {
         toRemove.add(s);
       }
     }
