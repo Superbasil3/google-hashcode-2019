@@ -17,6 +17,8 @@ public class Slide {
     public Slide(Photo p1) {
         this.photo1 = p1;
     }
+    public Slide() {
+    }
 
     public Set<String> getTags() {
         Set<String> tags = new HashSet<>();
@@ -26,4 +28,12 @@ public class Slide {
         tags.addAll(photo1.tags);
         return tags;
     }
+
+    public void addPhoto2(Photo photo) {
+        photo2 = photo;
+    }
+    public void addPhoto1(Photo photo) {
+        photo1 = photo;
+    }
+
 }
