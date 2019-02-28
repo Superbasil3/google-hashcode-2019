@@ -14,11 +14,11 @@ public class Simulation {
 
     Map<Integer, Photo> mapPhoto = new HashMap<>();
     Map<String, Tags> repartitionTags = new HashMap<>();
+    public Transitions transitions= new Transitions();
 
     public int simulate() {
         int score = 0;
 
-        Transitions transitions = new Transitions();
         int maxinterestFactor = 0;
         Slide bestS1 = null;
         Slide bestS2 = null;

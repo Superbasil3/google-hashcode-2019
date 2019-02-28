@@ -41,15 +41,13 @@ public class ReadFile {
             simulation.addPhoto(new Photo(photoId.getAndIncrement(),lineParsed));
           }
         });
-        simulation.simulate();
         System.out.println(simulation);
       } catch (IOException e) {
         e.printStackTrace();
       }
-
       simulation.simulate();
+      holder.put(filename,simulation.transitions);
     }
-
     System.out.println("Total = " + NumberFormat.getInstance().format(total));
     return holder;
   }
