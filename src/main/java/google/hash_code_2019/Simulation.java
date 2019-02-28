@@ -13,8 +13,8 @@ public class Simulation {
   Map<Integer, Photo> mapPhoto = new HashMap<>();
   Map<String, Integer> repartitionTags = new HashMap<>();
 
-  public int simulate() {
-    int score = 0;
+    public int simulate() {
+        int score = 0;
 
     int maxinterestFactor = 0;
     for (Photo p1 : mapPhoto.values()) {
