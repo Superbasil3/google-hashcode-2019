@@ -21,7 +21,7 @@ public class ReadFile {
   public static Map<String, Object> getFileFromPath() throws IOException, URISyntaxException {
     Map<String, Object> holder = new HashMap<>();
 
-    List<Path> paths = Files.find(Paths.get(ClassLoader.getSystemResource("inputs").toURI()), 5, (path, attr) -> path.toString().toLowerCase().endsWith(".in"))
+    List<Path> paths = Files.find(Paths.get(ClassLoader.getSystemResource(".").toURI()), 5, (path, attr) -> path.toString().toLowerCase().endsWith(".txt"))
         .sorted((path2, path1) -> path1.getFileName().toString().compareTo(path2.getFileName().toString()))
         .collect(Collectors.toList());
     int total = 0;
