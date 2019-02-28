@@ -47,7 +47,7 @@ public class ReadFile {
       }
 
       //simulation.simulate();
-      simulation.fakeSimulate();
+      //simulation.fakeSimulate();
 
       total = simulation.simulate();
       holder.put(filename,simulation.transitions);

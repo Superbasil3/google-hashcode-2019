@@ -34,9 +34,14 @@ public class Simulation {
     }
     System.out.println("All possible slides " + allPossibleSlides.size());
 
+    int i = 0;
         score = findFirstransition(transitions);
         while (!allPossibleSlides.isEmpty()) {
+          i++;
+          if (i > 1000) {
             System.out.println("Remaining " + allPossibleSlides.size());
+            i = 0;
+          }
             score += findBestSecondTransition(transitions);
         }
         return score;
@@ -96,7 +101,16 @@ public class Simulation {
     allPossibleSlides.remove(bestS2);
     List<Slide> toRemove = new ArrayList<>();
     for (Slide s : allPossibleSlides) {
+      if (s.photo1 == bestS1.photo2 || s.photo1 == bestS2.photo2) {
+        toRemove.add(s);
+      }
+      if (s.photo1 == bestS1.photo1 || s.photo1 == bestS2.photo1) {
+        toRemove.add(s);
+      }
       if (s.photo2 != null && (s.photo2 == bestS1.photo2 || s.photo2 == bestS2.photo2)) {
+        toRemove.add(s);
+      }
+      if (s.photo2 != null && (s.photo2 == bestS1.photo1 || s.photo2 == bestS2.photo1)) {
         toRemove.add(s);
       }
     }
