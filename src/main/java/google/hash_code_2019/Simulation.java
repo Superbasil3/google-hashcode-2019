@@ -49,7 +49,7 @@ public class Simulation {
   }
 
   public void addPhoto(Photo photo ){
-      mapPhoto.put(photo.id, photo);
+      mapPhoto.put(photo.idPhoto, photo);
   }
 
     public void addTagRepartition(Photo photo) {
