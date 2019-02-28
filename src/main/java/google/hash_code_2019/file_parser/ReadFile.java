@@ -1,6 +1,7 @@
 package google.hash_code_2019.file_parser;
 
 import google.hash_code_2019.Simulation;
+import google.hash_code_2019.model.Photo;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -30,7 +31,14 @@ public class ReadFile {
       final Simulation simulation = new Simulation();
 
       try (Stream<String> stream = Files.lines(Paths.get(file.toString()))) {
-
+        stream.forEach((String line) -> {
+          String[] lineParsed = line.split(" ");
+          if(lineParsed.length == 1){
+            System.out.println("Number of pictures : " + lineParsed[0]);
+          }else {
+            simulation.addPhoto(new Photo(lineParsed));
+          }
+        });
       } catch (IOException e) {
         e.printStackTrace();
       }
