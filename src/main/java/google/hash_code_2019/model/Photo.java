@@ -18,4 +18,13 @@ public class Photo {
         tags.add(lineParsed[i]);
     }
   }
+
+  @Override
+  public String toString() {
+    return "Photo{" +
+            "horizontal=" + horizontal +
+            ", tags=" + tags +
+            ", idPhoto=" + idPhoto +
+            '}';
+  }
 }

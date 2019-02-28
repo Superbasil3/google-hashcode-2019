@@ -32,8 +32,8 @@ public class ReadFile {
       final Simulation simulation = new Simulation();
 
       try (Stream<String> stream = Files.lines(Paths.get(file.toString()))) {
+        AtomicInteger photoId = new AtomicInteger();
         stream.forEach((String line) -> {
-          AtomicInteger photoId = new AtomicInteger();
           String[] lineParsed = line.split(" ");
           if(lineParsed.length == 1){
             System.out.println("Number of pictures : " + lineParsed[0]);
