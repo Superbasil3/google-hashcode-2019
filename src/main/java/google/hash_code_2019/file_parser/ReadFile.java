@@ -12,6 +12,7 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -32,11 +33,12 @@ public class ReadFile {
 
       try (Stream<String> stream = Files.lines(Paths.get(file.toString()))) {
         stream.forEach((String line) -> {
+          AtomicInteger photoId = new AtomicInteger();
           String[] lineParsed = line.split(" ");
           if(lineParsed.length == 1){
             System.out.println("Number of pictures : " + lineParsed[0]);
           }else {
-            simulation.addPhoto(new Photo(lineParsed));
+            simulation.addPhoto(new Photo(photoId.getAndIncrement(),lineParsed));
           }
         });
         System.out.println(simulation);
