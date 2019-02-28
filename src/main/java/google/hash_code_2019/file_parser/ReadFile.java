@@ -41,6 +41,7 @@ public class ReadFile {
             simulation.addPhoto(new Photo(photoId.getAndIncrement(),lineParsed));
           }
         });
+        simulation.simulate();
         System.out.println(simulation);
       } catch (IOException e) {
         e.printStackTrace();
