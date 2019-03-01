@@ -21,6 +21,7 @@ public class Slide {
         this.tags = calculateTags();
     }
     public Slide() {
+        tags = new HashSet<>();
     }
 
     public Set<String> getTags() {
@@ -28,7 +29,7 @@ public class Slide {
     }
 
     private Set<String> calculateTags() {
-        Set<String> tags = new HashSet<>();
+        tags = new HashSet<>();
         if (photo2 != null) {
             tags.addAll(photo2.tags);
         }

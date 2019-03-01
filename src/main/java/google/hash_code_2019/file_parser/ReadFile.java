@@ -50,8 +50,9 @@ public class ReadFile {
       //simulation.fakeSimulate();
 
       simulation.prepareAndStat();
-      total = simulation.simulate();
+      total = simulation.fakeSimulate();
       holder.put(filename,simulation.transitions);
+      System.out.println("File= " + filename + " score : " +total);
       WriteFile.writeFileToPath(holder);
     }
     System.out.println("Total = " + NumberFormat.getInstance().format(total));

@@ -3,10 +3,8 @@ package google.hash_code_2019;
 
 import com.google.common.collect.Sets;
 import google.hash_code_2019.model.*;
-import sun.security.krb5.internal.ccache.Tag;
 
 import java.util.*;
-import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public class Simulation {
@@ -70,7 +68,8 @@ public class Simulation {
           }
             score += findBestSecondTransition(transitions);
         }
-        return score;
+
+      return countScore();
     }
 
 
@@ -214,7 +213,7 @@ public class Simulation {
     if (s1 == null || s2 == null) {
       System.out.println("null");
     }
-     common_tags = Sets.intersection(s1.getTags(), s2.getTags()).size();
+    common_tags = Sets.intersection(s1.getTags(), s2.getTags()).size();
     if (common_tags == 0) {
       return 0;
     }
@@ -256,28 +255,29 @@ public class Simulation {
       }
     }
 
+//
+//    Transitions random = new Transitions();
+//    int size = transitions.transitions.size();
+//    while (size > 0) {
+//      Integer randomInteger = ThreadLocalRandom.current().nextInt(0, transitions.transitions.size());
+//      random.addLast(transitions.transitions.get(randomInteger));
+//      transitions.transitions.remove(transitions.transitions.get(randomInteger));
+//      size = transitions.transitions.size();
+//    }
+//    transitions = random;
 
-    Transitions random = new Transitions();
-    int size = transitions.transitions.size();
-    while (size > 0) {
-      Integer randomInteger = ThreadLocalRandom.current().nextInt(0, transitions.transitions.size());
-      random.addLast(transitions.transitions.get(randomInteger));
-      transitions.transitions.remove(transitions.transitions.get(randomInteger));
-      size = transitions.transitions.size();
-    }
-    transitions = random;
-
-    return 0;
+    return countScore();
   }
 
-  public void countScore() {
+  public int countScore() {
     int score = 0;
-    for(int i = 0; i < transitions.transitions.size() -2 ; i++){
+    for(int i = 0; i < transitions.transitions.size() -1 ; i++){
       Slide slide1 = transitions.transitions.get(i);
       Slide slide2 = transitions.transitions.get(i+1);
       score += interest_factor(slide1,slide2);
     }
     System.out.println("Total Score " + score);
+    return score;
   }
 }
 
