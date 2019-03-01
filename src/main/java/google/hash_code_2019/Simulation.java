@@ -3,6 +3,7 @@ package google.hash_code_2019;
 
 import com.google.common.collect.Sets;
 import google.hash_code_2019.model.*;
+import sun.security.krb5.internal.ccache.Tag;
 
 import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
@@ -18,14 +19,38 @@ public class Simulation {
   Map<String, Tags> repartitionTags = new HashMap<>();
   public Transitions transitions= new Transitions();
 
-  public int simulate() {
-    int score = 0;
+  public void prepareAndStat(){
+    List<Tags> listTag = repartitionTags.values().stream().sorted(Tags::compareTo).collect(Collectors.toList());
+    long occurence = -1L;
+    int nbrTag = 0;
+//    for(Tags tag : listTag){
+//      if(occurence == -1L){
+//        occurence = tag.iteration;
+//        nbrTag = 1;
+//      } else if (occurence != tag.iteration){
+//        System.out.println(nbrTag + " Tags present " + occurence + "time");
+//        occurence = tag.iteration;
+//        nbrTag = 1;
+//      } else {
+//        nbrTag ++;
+//      }
+//    }
+    System.out.println(nbrTag + " Tags present " + occurence + "time");
 
-    //System.out.println("Number of tags :" + repartitionTags.size());
-    //repartitionTags.values().stream().sorted().forEach(tag -> System.out.println("Tag : " + tag.name + ", iteration " + tag.iteration));
 
     horizontalPhotos.addAll(mapPhoto.values().stream().filter(p -> p.horizontal).collect(Collectors.toList()));
     verticalPhotos.addAll(mapPhoto.values().stream().filter(p -> !p.horizontal).collect(Collectors.toList()));
+    System.out.println("Number of tags :" + repartitionTags.size());
+
+
+    System.out.println("Vertical: " + verticalPhotos.size());
+    System.out.println("Horizontal: " + horizontalPhotos.size());
+  }
+
+  public int simulate() {
+    int score = 0;
+
+
 
     allPossibleSlides.addAll(horizontalPhotos.stream().map(Slide::new).collect(Collectors.toList()));
     for (int i = 0; i < verticalPhotos.size(); i++) {
@@ -47,6 +72,7 @@ public class Simulation {
         }
         return score;
     }
+
 
   private int findBestSecondTransition(Transitions transitions) {
     int maxinterestFactor = 0;
@@ -242,6 +268,16 @@ public class Simulation {
     transitions = random;
 
     return 0;
+  }
+
+  public void countScore() {
+    int score = 0;
+    for(int i = 0; i < transitions.transitions.size() -2 ; i++){
+      Slide slide1 = transitions.transitions.get(i);
+      Slide slide2 = transitions.transitions.get(i+1);
+      score += interest_factor(slide1,slide2);
+    }
+    System.out.println("Total Score " + score);
   }
 }
 

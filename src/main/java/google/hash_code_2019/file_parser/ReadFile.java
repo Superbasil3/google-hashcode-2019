@@ -49,12 +49,13 @@ public class ReadFile {
       //simulation.simulate();
       //simulation.fakeSimulate();
 
-      total = simulation.fakeSimulate();
+      simulation.prepareAndStat();
+      total = simulation.simulate();
       holder.put(filename,simulation.transitions);
+      WriteFile.writeFileToPath(holder);
     }
     System.out.println("Total = " + NumberFormat.getInstance().format(total));
     return holder;
   }
-
 
 }
