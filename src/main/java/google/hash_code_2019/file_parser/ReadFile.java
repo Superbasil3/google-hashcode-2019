@@ -49,7 +49,7 @@ public class ReadFile {
       //simulation.simulate();
       //simulation.fakeSimulate();
 
-      total = simulation.simulate();
+      total = simulation.fakeSimulate();
       holder.put(filename,simulation.transitions);
     }
     System.out.println("Total = " + NumberFormat.getInstance().format(total));

@@ -5,6 +5,7 @@ import com.google.common.collect.Sets;
 import google.hash_code_2019.model.*;
 
 import java.util.*;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
 public class Simulation {
@@ -191,8 +192,8 @@ public class Simulation {
     if (common_tags == 0) {
       return 0;
     }
-    tags_in_s1_but_not_in_s2 = Sets.difference(s1.getTags(), s2.getTags()).size();
-    tags_in_s2_but_not_in_s2 = Sets.difference(s2.getTags(), s1.getTags()).size();
+    tags_in_s1_but_not_in_s2 = s1.getTags().size() - common_tags;
+    tags_in_s2_but_not_in_s2 = s2.getTags().size() - common_tags;
     return Math.min(Math.min(common_tags, tags_in_s1_but_not_in_s2), tags_in_s2_but_not_in_s2);
   }
 
@@ -228,6 +229,18 @@ public class Simulation {
         }
       }
     }
+
+
+    Transitions random = new Transitions();
+    int size = transitions.transitions.size();
+    while (size > 0) {
+      Integer randomInteger = ThreadLocalRandom.current().nextInt(0, transitions.transitions.size());
+      random.addLast(transitions.transitions.get(randomInteger));
+      transitions.transitions.remove(transitions.transitions.get(randomInteger));
+      size = transitions.transitions.size();
+    }
+    transitions = random;
+
     return 0;
   }
 }
