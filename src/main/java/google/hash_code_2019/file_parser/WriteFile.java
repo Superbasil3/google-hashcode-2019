@@ -1,5 +1,6 @@
 package google.hash_code_2019.file_parser;
 
+import google.hash_code_2019.Simulation;
 import google.hash_code_2019.model.Slide;
 import google.hash_code_2019.model.Transitions;
 
@@ -22,7 +23,7 @@ public class WriteFile {
         String outputFileName = outputFolder.resolve(entry.getKey().toString().replace("txt", "out")).toString();
         PrintWriter fileResult = new PrintWriter(new FileWriter(outputFileName));
 
-        writeAnswerToFile(fileResult, (Transitions) entry.getValue());
+        writeAnswerToFile(fileResult, (Simulation) entry.getValue());
         fileResult.close();
       }
     } catch (Exception e) {
@@ -30,9 +31,9 @@ public class WriteFile {
     }
   }
 
-  private static void writeAnswerToFile(PrintWriter fileResult, Transitions transition) {
-    fileResult.println(transition.transitions.size());
-    for (Slide slide : transition.transitions) {
+  private static void writeAnswerToFile(PrintWriter fileResult, Simulation simulation) {
+    fileResult.println(simulation.transitions.transitions.size());
+    for (Slide slide : simulation.transitions.transitions) {
       if(slide.photo1 != null && slide.photo2 != null){
         fileResult.println(slide.photo1.idPhoto + " " + slide.photo2.idPhoto);
       } else {

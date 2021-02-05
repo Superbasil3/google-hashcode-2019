@@ -4,12 +4,22 @@ package google.hash_code_2019;
 import com.google.common.collect.Sets;
 import google.hash_code_2019.model.*;
 
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Simulation {
 
 
+  static String filename = "a_example";
   Map<Integer, Photo> mapPhoto = new HashMap<>();
   List<Photo> horizontalPhotos = new ArrayList<>();
   List<Photo> verticalPhotos = new ArrayList<>();
@@ -17,12 +27,66 @@ public class Simulation {
   Map<String, Tags> repartitionTags = new HashMap<>();
   public Transitions transitions= new Transitions();
 
-  public int simulate() {
-    int score = 0;
 
-    //System.out.println("Number of tags :" + repartitionTags.size());
-    //repartitionTags.values().stream().sorted().forEach(tag -> System.out.println("Tag : " + tag.name + ", iteration " + tag.iteration));
+  public void calculate() throws Exception {
 
+    allPossiblesSlides();
+
+
+    Map<String, List<String>> collect = allPossibleSlides.stream().flatMap(s -> s.tags.stream())
+            .collect(Collectors.groupingBy(Function.identity()));
+    List<List<String>> collect1 = collect.values().stream().filter(v -> v.size() > 1).collect(Collectors.toList());
+    System.out.println(collect);
+
+    List<Slide> taken = new ArrayList<>();
+    for (List<String> strings : collect1) {
+    }
+
+
+    Map<Integer, List<Slide>> tagSize = allPossibleSlides.stream().collect(Collectors.groupingBy(s -> s.tags.size()));
+
+    for (Slide s1 : tagSize.get(33)) {
+      for (Slide s2 : tagSize.get(33)) {
+        if (s1 == s2) {
+          continue;
+        }
+        if(Sets.intersection(s1.getTags(), s2.getTags()).size() >= 4) {
+          System.out.println("found");
+        }
+      }
+
+    }
+
+
+    //List<Calcul> calculs = Collections.synchronizedList(new ArrayList<>());
+
+    Path outputFolder = Paths.get("target/output-calculs");
+    Files.createDirectories(outputFolder);
+
+    String outputFileName = outputFolder.resolve(filename + ".calc").toString();
+    PrintWriter fileResult = new PrintWriter(new FileWriter(outputFileName));
+/*
+    IntStream.range(0, allPossibleSlides.size()).parallel()
+    .forEach(i -> {
+      IntStream.range(i + 1, allPossibleSlides.size()).parallel()
+          .forEach(j -> {
+            Slide s1 = allPossibleSlides.get(i);
+            Slide s2 = allPossibleSlides.get(j);
+            int common_tags = Sets.intersection(s1.getTags(), s2.getTags()).size();
+            int inS1Only = s1.getTags().size() - common_tags;
+            int inS2Only = s2.getTags().size() - common_tags;
+            Calcul calcul = new Calcul(i, s1, j, s2, common_tags, inS1Only, inS2Only, Math.min(Math.min(common_tags, inS1Only), inS2Only));
+            //calculs.add(calcul);
+            fileResult.println(calcul.s1id + " " + calcul.s2id + " " + calcul.common + " " + calcul.inS1Only + " " + calcul.inS2Only + " " + calcul.factor);
+            System.out.println("calculing " + i + " " + j);
+          });
+    });*/
+
+    fileResult.close();
+    //System.out.println("Calculs " + calculs.size());
+  }
+
+  private void allPossiblesSlides() throws IOException {
     horizontalPhotos.addAll(mapPhoto.values().stream().filter(p -> p.horizontal).collect(Collectors.toList()));
     verticalPhotos.addAll(mapPhoto.values().stream().filter(p -> !p.horizontal).collect(Collectors.toList()));
 
@@ -33,6 +97,26 @@ public class Simulation {
       }
     }
     System.out.println("All possible slides " + allPossibleSlides.size());
+
+    Path outputFolder = Paths.get("target/output-slides");
+    Files.createDirectories(outputFolder);
+
+    String outputFileName = outputFolder.resolve(filename + ".slides").toString();
+    PrintWriter fileResult = new PrintWriter(new FileWriter(outputFileName));
+    for (int i = 0; i < allPossibleSlides.size(); i++) {
+      Slide slide = allPossibleSlides.get(i);
+      fileResult.println(i + " " + slide.photo1.idPhoto + " " + (slide.photo2 != null ? slide.photo2.idPhoto : ""));
+    }
+    fileResult.close();
+  }
+
+  public int simulate() throws IOException {
+    int score = 0;
+
+    //System.out.println("Number of tags :" + repartitionTags.size());
+    //repartitionTags.values().stream().sorted().forEach(tag -> System.out.println("Tag : " + tag.name + ", iteration " + tag.iteration));
+
+    allPossiblesSlides();
 
     int i = 0;
         score = findFirstransition(transitions);
@@ -55,8 +139,8 @@ public class Simulation {
 
     Calcul calcul = allPossibleSlides.parallelStream().map(s2 -> {
       int interest_factor = interest_factor(s1, s2);
-      return new Calcul(s1, s2, interest_factor);
-    }).max((c1, c2) -> Integer.max(c1.factor, c2.factor)).get();
+      return new Calcul(0, s1, 0, s2, 0, 0, 0, interest_factor);
+    }).max(Comparator.comparingInt(c -> c.factor)).get();
     bestS2 = calcul.s2;
 
     /*for (int j = 0; j < allPossibleSlides.size() - 1; j++) {
@@ -191,8 +275,8 @@ public class Simulation {
     if (common_tags == 0) {
       return 0;
     }
-    tags_in_s1_but_not_in_s2 = Sets.difference(s1.getTags(), s2.getTags()).size();
-    tags_in_s2_but_not_in_s2 = Sets.difference(s2.getTags(), s1.getTags()).size();
+    tags_in_s1_but_not_in_s2 = s1.getTags().size() - common_tags;
+    tags_in_s2_but_not_in_s2 = s2.getTags().size() - common_tags;
     return Math.min(Math.min(common_tags, tags_in_s1_but_not_in_s2), tags_in_s2_but_not_in_s2);
   }
 

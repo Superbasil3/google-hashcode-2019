@@ -25,7 +25,7 @@ public class ReadFile {
     List<Path> paths = Files.find(Paths.get(ClassLoader.getSystemResource(".").toURI()), 5, (path, attr) -> path.toString().toLowerCase().endsWith(".txt"))
         .sorted((path2, path1) -> path1.getFileName().toString().compareTo(path2.getFileName().toString()))
         .collect(Collectors.toList());
-    int total = 0;
+    //int total = 0;
 
     for (Path file : paths) {
       String filename = file.getFileName().toString();
@@ -49,10 +49,10 @@ public class ReadFile {
       //simulation.simulate();
       //simulation.fakeSimulate();
 
-      total = simulation.simulate();
-      holder.put(filename,simulation.transitions);
+      //total = simulation.simulate();
+      holder.put(filename,simulation);
     }
-    System.out.println("Total = " + NumberFormat.getInstance().format(total));
+    //System.out.println("Total = " + NumberFormat.getInstance().format(total));
     return holder;
   }
 
